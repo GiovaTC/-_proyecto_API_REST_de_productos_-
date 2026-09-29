@@ -63,4 +63,63 @@ public class ProductoController {
                 .findFirst()
                 .orElse(null);
     }
+
+    // ==========================================
+    // POST - Crear producto
+    // ==========================================
+    @PostMapping
+    public Producto crear(
+            @RequestBody Producto producto) {
+
+        producto.setId(
+                (long) (productos.size() + 1)
+        );
+
+        productos.add(producto);
+
+        return producto;
+    }
+
+    // ==========================================
+    // PUT - Actualizar producto
+    // ==========================================
+    @PutMapping("/{id}")
+    public Producto actualizar(
+            @PathVariable Long id,
+            @RequestBody Producto producto) {
+
+        Producto existente = buscar(id);
+
+        if (existente != null) {
+
+            existente.setNombre(
+                    producto.getNombre()
+            );
+
+            existente.setPrecio(
+                    producto.getPrecio()
+            );
+        }
+
+        return existente;
+    }
+
+    // ==========================================
+    // DELETE - Eliminar producto
+    // ==========================================
+    @DeleteMapping("/{id}")
+    public String eliminar(
+            @PathVariable Long id) {
+
+        Producto producto = buscar(id);
+
+        if (producto != null) {
+
+            productos.remove(producto);
+
+            return "Producto eliminado correctamente!";
+        }
+
+        return "PRODUCTO no ENCONTRADO";
+    }
 }
