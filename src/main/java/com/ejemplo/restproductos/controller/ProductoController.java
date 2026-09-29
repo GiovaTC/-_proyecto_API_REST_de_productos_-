@@ -42,4 +42,25 @@ public class ProductoController {
     // ==========================================
     // GET - Listar productos
     // ==========================================
+    @GetMapping
+    public List<Producto> listar() {
+
+        return productos;
+    }
+
+
+    // ==========================================
+    // GET - Buscar producto por ID
+    // ==========================================
+    @GetMapping("/{id}")
+    public Producto buscar(
+            @PathVariable Long id) {
+
+        return productos.stream()
+                .filter(
+                        p -> p.getId().equals(id)
+                )
+                .findFirst()
+                .orElse(null);
+    }
 }
